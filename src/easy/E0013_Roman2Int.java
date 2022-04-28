@@ -1,15 +1,14 @@
 package easy;
 
-
 /*
- * 
+ * https://leetcode.com/problems/roman-to-integer/
  * Symbol       Value
 I             1
-V             5
+V             5 - 
 X             10
-L             50
+L             50  - 
 C             100
-D             500
+D             500  - 
 M             1000
  * 
  * */
@@ -18,51 +17,83 @@ public class E0013_Roman2Int
 
 	public static void main(String[] args)
 	{
-		// TODO Auto-generated method stub
-		
-
-		romanToInt("III");
+		// System.out.println(romanToInt("IX"));
 	}
     public  static int romanToInt(String s) {
     	
-    	int ans=0;
-    	boolean posV = false , posL = false , posD = false;
+    	var ans = 0;
+    	
+    	var posV = 0; 
+    	var posL = 0; 
+    	var posD = 0;
     	
     	char [] rom =s.toCharArray() ;
-
-    	for (int i=0 ; i<rom.length ; i++)
+    	
+    	for (var i=0 ; i<rom.length ; i++)
     	{
     		if (rom[i] == 'V')
     		{
     			ans += 5;
-    			posV = true;
+    			posV = i;
     		}
     		else if (rom[i] == 'L')
     		{
     			ans += 50;
-    			posL = true;
+    			posL = i;
     		}
        		else if (rom[i] == 'D')
     		{
     			ans += 500;
-    			posD = true;
-    		}   	   		
+    			posD = i;
+    		}   	   
+       		else if (rom[i] == 'M')
+       		{
+       			ans += 1000;
+       		}
     	}
     	
-    	if ( posV || posL || posD)
+    	for (var i=0 ; i<rom.length ; i++)
     	{
-    		for (int i=0 ; i<rom.length ; i++)
+    		while (rom[i] == 'I')
     		{
-        		if (rom[i] == 'I')
-        		{
-        			ans += 5;
-        		}
-    			
-    			
-    			
+    			if (posV > i || i+1 <rom.length && rom[i+1] == 'X')
+    			{
+    				ans -= 1;
+        			System.out.println("here"); 
+    			}
+    			else 
+    			{
+    				ans +=1 ;
+    			}
+    			break;
     		}
+
+    		while (rom[i] == 'X' )
+    		{
+    			if (posL > i || i+1 < rom.length && rom[i+1] =='C' )
+    			{
+    				ans -= 10;
+    			}
+    			else 
+    			{
+    				ans +=10 ;
+    			}
+    			break;
+    		}
+    		
+    		while (rom[i] == 'C' )
+    		{
+    			if (posD > i || i+1 < rom.length && rom[i+1] == 'M')
+    			{
+    				ans -= 100;
+    			}
+    			else 
+    			{
+    				ans +=100 ;
+    			}
+    			break;
+    		}    	
     	}
-    	
     	
 		return ans;	
     }
